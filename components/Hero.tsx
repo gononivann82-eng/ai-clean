@@ -81,17 +81,6 @@ export default function Hero() {
         className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto perspective-text"
         style={{ opacity: contentOpacity, y: contentY }}
       >
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-blue-500/25 text-blue-300 text-xs font-medium tracking-[0.16em] uppercase mb-10"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
-          Détailing Premium · Saint-Étienne
-        </motion.div>
-
         {/* Headline — Cuberto word-by-word reveal */}
         <h1 className="font-display font-bold leading-[1.03] tracking-tight mb-7">
           <LineReveal delay={0.25} className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem]">

@@ -21,12 +21,12 @@ const contactInfo = [
     ),
   },
   {
-    label: 'Téléphone',
-    value: '06 62 25 07 06',
-    href: 'tel:0662250706',
+    label: 'Snapchat',
+    value: '@aiclean',
+    href: 'https://www.snapchat.com/add/aiclean',
     icon: (
-      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12.166 2.139c.394.014.751.039 1.105.097 1.473.241 2.79 1.13 3.534 2.397.512.872.732 1.84.732 2.829 0 .394-.026.768-.052 1.143-.013.187-.026.374-.039.566.225.117.451.16.7.16.318 0 .613-.06.882-.158a.768.768 0 01.953.404.768.768 0 01-.346 1.033c-.435.225-.973.36-1.535.42-.066.193-.16.45-.291.71.515 1.793 2.04 2.077 2.27 2.107a.448.448 0 01.354.566c-.236.733-1.466.984-1.997 1.069-.018.103-.052.207-.092.336-.04.137-.21.252-.498.252h-.014c-.179 0-.4-.029-.713-.087a3.842 3.842 0 00-.726-.066c-.272 0-.546.024-.86.078-.59.103-1.099.512-1.7.99-.858.683-1.83 1.458-3.36 1.458-.066 0-.131-.003-.197-.007h-.158c-1.53 0-2.502-.775-3.36-1.459-.6-.477-1.11-.886-1.7-.99a4.946 4.946 0 00-.86-.077c-.354 0-.624.054-.85.099a4.21 4.21 0 01-.589.073c-.354 0-.482-.215-.518-.337-.04-.13-.07-.232-.092-.336-.531-.085-1.761-.336-1.997-1.07a.448.448 0 01.354-.565c.23-.03 1.755-.314 2.27-2.107-.131-.26-.225-.518-.291-.71-.562-.06-1.1-.196-1.535-.42a.768.768 0 01-.346-1.033.768.768 0 01.953-.405c.269.098.564.158.882.158.249 0 .476-.043.7-.16-.013-.192-.026-.379-.039-.566-.026-.375-.052-.749-.052-1.143 0-.99.22-1.957.732-2.829.745-1.267 2.061-2.156 3.534-2.397.354-.058.71-.083 1.105-.097z" />
       </svg>
     ),
   },
@@ -125,21 +125,23 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* Appel direct */}
+            {/* Snapchat direct */}
             <a
-              href="tel:0662250706"
+              href="https://www.snapchat.com/add/aiclean"
+              target="_blank"
+              rel="noopener noreferrer"
               data-cursor-hover
-              className="group inline-flex items-center gap-3 px-6 py-4 rounded-2xl glass border border-blue-500/25 hover:border-blue-500/50 transition-all duration-300"
+              className="group inline-flex items-center gap-3 px-6 py-4 rounded-2xl glass border border-yellow-400/25 hover:border-yellow-400/60 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                <svg className="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              <div className="w-10 h-10 rounded-full bg-yellow-400/20 border border-yellow-400/40 flex items-center justify-center">
+                <svg className="w-5 h-5 text-yellow-300" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.166 2.139c.394.014.751.039 1.105.097 1.473.241 2.79 1.13 3.534 2.397.512.872.732 1.84.732 2.829 0 .394-.026.768-.052 1.143-.013.187-.026.374-.039.566.225.117.451.16.7.16.318 0 .613-.06.882-.158a.768.768 0 01.953.404.768.768 0 01-.346 1.033c-.435.225-.973.36-1.535.42-.066.193-.16.45-.291.71.515 1.793 2.04 2.077 2.27 2.107a.448.448 0 01.354.566c-.236.733-1.466.984-1.997 1.069-.018.103-.052.207-.092.336-.04.137-.21.252-.498.252h-.014c-.179 0-.4-.029-.713-.087a3.842 3.842 0 00-.726-.066c-.272 0-.546.024-.86.078-.59.103-1.099.512-1.7.99-.858.683-1.83 1.458-3.36 1.458-.066 0-.131-.003-.197-.007h-.158c-1.53 0-2.502-.775-3.36-1.459-.6-.477-1.11-.886-1.7-.99a4.946 4.946 0 00-.86-.077c-.354 0-.624.054-.85.099a4.21 4.21 0 01-.589.073c-.354 0-.482-.215-.518-.337-.04-.13-.07-.232-.092-.336-.531-.085-1.761-.336-1.997-1.07a.448.448 0 01.354-.565c.23-.03 1.755-.314 2.27-2.107-.131-.26-.225-.518-.291-.71-.562-.06-1.1-.196-1.535-.42a.768.768 0 01-.346-1.033.768.768 0 01.953-.405c.269.098.564.158.882.158.249 0 .476-.043.7-.16-.013-.192-.026-.379-.039-.566-.026-.375-.052-.749-.052-1.143 0-.99.22-1.957.732-2.829.745-1.267 2.061-2.156 3.534-2.397.354-.058.71-.083 1.105-.097z" />
                 </svg>
               </div>
               <div>
-                <div className="text-text-muted text-[10px] uppercase tracking-widest mb-0.5">Appel direct</div>
-                <div className="text-white font-display font-bold text-lg tracking-wide group-hover:text-blue-300 transition-colors duration-200">
-                  06 62 25 07 06
+                <div className="text-text-muted text-[10px] uppercase tracking-widest mb-0.5">Snapchat</div>
+                <div className="text-white font-display font-bold text-lg tracking-wide group-hover:text-yellow-200 transition-colors duration-200">
+                  @aiclean
                 </div>
               </div>
             </a>
@@ -251,10 +253,12 @@ export default function Contact() {
                     pour confirmer votre créneau A&amp;I Clean.
                   </p>
                   <a
-                    href="tel:0662250706"
-                    className="mt-2 text-blue-400 text-sm font-medium hover:text-blue-300 transition-colors"
+                    href="https://www.snapchat.com/add/aiclean"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 text-yellow-300 text-sm font-medium hover:text-yellow-200 transition-colors"
                   >
-                    Ou appelez directement le 06 62 25 07 06
+                    Ou ajoutez-nous sur Snapchat : @aiclean
                   </a>
                   <button
                     onClick={() => { setSubmitted(false); setForm({ name: '', phone: '', service: '', message: '' }) }}
