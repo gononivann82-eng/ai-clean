@@ -30,8 +30,6 @@ function LineReveal({
 }
 
 const stats = [
-  { value: '500+', label: 'Véhicules traités' },
-  { value: '99%', label: 'Clients satisfaits' },
   { value: 'Loire', label: '& alentours' },
 ]
 
@@ -144,7 +142,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.1 }}
-          className="flex gap-8 sm:gap-20 justify-center mt-16 pt-8 border-t border-white/[0.07]"
+          className="flex justify-center mt-16 pt-8 border-t border-white/[0.07]"
         >
           {stats.map((s, i) => (
             <motion.div
@@ -154,8 +152,8 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.1 + i * 0.1 }}
             >
-              <div className="font-display text-2xl sm:text-3xl font-bold text-white">{s.value}</div>
-              <div className="text-text-muted text-[11px] sm:text-xs font-medium mt-1 tracking-widest uppercase">
+              <div className="font-display text-3xl sm:text-4xl font-bold text-white">{s.value}</div>
+              <div className="text-text-secondary text-xs font-medium mt-1 tracking-widest uppercase">
                 {s.label}
               </div>
             </motion.div>

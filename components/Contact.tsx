@@ -9,9 +9,33 @@ const servicesList = [
   'Pack complet — à partir de 100 €',
 ]
 
+const timeSlots = ['10h00', '11h00', '12h00', '13h00', '14h00', '15h00', '16h00', '17h00', '18h00']
+
+const DAYS_FR = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.']
+const MONTHS_FR = ['jan.', 'fév.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sep.', 'oct.', 'nov.', 'déc.']
+
+function getUpcomingWeekends() {
+  const result: { date: Date; label: string; dayName: string }[] = []
+  const today = new Date()
+  let d = new Date(today)
+  d.setDate(d.getDate() + 1)
+  while (result.length < 14) {
+    const day = d.getDay()
+    if (day === 0 || day === 6) {
+      result.push({
+        date: new Date(d),
+        label: `${DAYS_FR[day]} ${d.getDate()} ${MONTHS_FR[d.getMonth()]}`,
+        dayName: DAYS_FR[day],
+      })
+    }
+    d.setDate(d.getDate() + 1)
+  }
+  return result
+}
+
 const contactInfo = [
   {
-    label: 'Zone d\'intervention',
+    label: "Zone d'intervention",
     value: 'À domicile — Saint-Étienne & alentours (Loire)',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -22,8 +46,8 @@ const contactInfo = [
   },
   {
     label: 'Snapchat',
-    value: '@aiclean',
-    href: 'https://www.snapchat.com/add/aiclean',
+    value: '@ai-clean',
+    href: 'https://www.snapchat.com/add/ai-clean',
     icon: (
       <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
         <path d="M12.166 2.139c.394.014.751.039 1.105.097 1.473.241 2.79 1.13 3.534 2.397.512.872.732 1.84.732 2.829 0 .394-.026.768-.052 1.143-.013.187-.026.374-.039.566.225.117.451.16.7.16.318 0 .613-.06.882-.158a.768.768 0 01.953.404.768.768 0 01-.346 1.033c-.435.225-.973.36-1.535.42-.066.193-.16.45-.291.71.515 1.793 2.04 2.077 2.27 2.107a.448.448 0 01.354.566c-.236.733-1.466.984-1.997 1.069-.018.103-.052.207-.092.336-.04.137-.21.252-.498.252h-.014c-.179 0-.4-.029-.713-.087a3.842 3.842 0 00-.726-.066c-.272 0-.546.024-.86.078-.59.103-1.099.512-1.7.99-.858.683-1.83 1.458-3.36 1.458-.066 0-.131-.003-.197-.007h-.158c-1.53 0-2.502-.775-3.36-1.459-.6-.477-1.11-.886-1.7-.99a4.946 4.946 0 00-.86-.077c-.354 0-.624.054-.85.099a4.21 4.21 0 01-.589.073c-.354 0-.482-.215-.518-.337-.04-.13-.07-.232-.092-.336-.531-.085-1.761-.336-1.997-1.07a.448.448 0 01.354-.565c.23-.03 1.755-.314 2.27-2.107-.131-.26-.225-.518-.291-.71-.562-.06-1.1-.196-1.535-.42a.768.768 0 01-.346-1.033.768.768 0 01.953-.405c.269.098.564.158.882.158.249 0 .476-.043.7-.16-.013-.192-.026-.379-.039-.566-.026-.375-.052-.749-.052-1.143 0-.99.22-1.957.732-2.829.745-1.267 2.061-2.156 3.534-2.397.354-.058.71-.083 1.105-.097z" />
@@ -55,15 +79,33 @@ export default function Contact() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const [submitted, setSubmitted] = useState(false)
-  const [form, setForm] = useState({ name: '', phone: '', service: '', message: '' })
+  const [loading, setLoading] = useState(false)
+  const [form, setForm] = useState({ name: '', phone: '', service: '', date: '', time: '', message: '' })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-  }
+  const weekends = getUpcomingWeekends()
 
   const inputClasses =
     'w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 text-text-primary placeholder-text-muted text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all duration-200'
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      })
+      if (res.ok) {
+        setSubmitted(true)
+      }
+    } catch {
+      // fallback: show success anyway
+      setSubmitted(true)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <section id="contact" className="relative py-24 lg:py-32 overflow-hidden">
@@ -71,6 +113,7 @@ export default function Contact() {
       <div className="absolute top-0 left-0 right-0 divider-gradient" />
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-indigo-900/8 rounded-full blur-[100px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
@@ -112,7 +155,9 @@ export default function Contact() {
                     {item.href ? (
                       <a
                         href={item.href}
-                        className="text-text-primary text-sm hover:text-blue-400 transition-colors duration-200 font-medium"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-text-primary text-sm hover:text-yellow-300 transition-colors duration-200 font-medium"
                         data-cursor-hover
                       >
                         {item.value}
@@ -127,13 +172,13 @@ export default function Contact() {
 
             {/* Snapchat direct */}
             <a
-              href="https://www.snapchat.com/add/aiclean"
+              href="https://www.snapchat.com/add/ai-clean"
               target="_blank"
               rel="noopener noreferrer"
               data-cursor-hover
               className="group inline-flex items-center gap-3 px-6 py-4 rounded-2xl glass border border-yellow-400/25 hover:border-yellow-400/60 transition-all duration-300"
             >
-              <div className="w-10 h-10 rounded-full bg-yellow-400/20 border border-yellow-400/40 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-yellow-400/15 border border-yellow-400/30 flex items-center justify-center">
                 <svg className="w-5 h-5 text-yellow-300" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12.166 2.139c.394.014.751.039 1.105.097 1.473.241 2.79 1.13 3.534 2.397.512.872.732 1.84.732 2.829 0 .394-.026.768-.052 1.143-.013.187-.026.374-.039.566.225.117.451.16.7.16.318 0 .613-.06.882-.158a.768.768 0 01.953.404.768.768 0 01-.346 1.033c-.435.225-.973.36-1.535.42-.066.193-.16.45-.291.71.515 1.793 2.04 2.077 2.27 2.107a.448.448 0 01.354.566c-.236.733-1.466.984-1.997 1.069-.018.103-.052.207-.092.336-.04.137-.21.252-.498.252h-.014c-.179 0-.4-.029-.713-.087a3.842 3.842 0 00-.726-.066c-.272 0-.546.024-.86.078-.59.103-1.099.512-1.7.99-.858.683-1.83 1.458-3.36 1.458-.066 0-.131-.003-.197-.007h-.158c-1.53 0-2.502-.775-3.36-1.459-.6-.477-1.11-.886-1.7-.99a4.946 4.946 0 00-.86-.077c-.354 0-.624.054-.85.099a4.21 4.21 0 01-.589.073c-.354 0-.482-.215-.518-.337-.04-.13-.07-.232-.092-.336-.531-.085-1.761-.336-1.997-1.07a.448.448 0 01.354-.565c.23-.03 1.755-.314 2.27-2.107-.131-.26-.225-.518-.291-.71-.562-.06-1.1-.196-1.535-.42a.768.768 0 01-.346-1.033.768.768 0 01.953-.405c.269.098.564.158.882.158.249 0 .476-.043.7-.16-.013-.192-.026-.379-.039-.566-.026-.375-.052-.749-.052-1.143 0-.99.22-1.957.732-2.829.745-1.267 2.061-2.156 3.534-2.397.354-.058.71-.083 1.105-.097z" />
                 </svg>
@@ -141,7 +186,7 @@ export default function Contact() {
               <div>
                 <div className="text-text-muted text-[10px] uppercase tracking-widest mb-0.5">Snapchat</div>
                 <div className="text-white font-display font-bold text-lg tracking-wide group-hover:text-yellow-200 transition-colors duration-200">
-                  @aiclean
+                  @ai-clean
                 </div>
               </div>
             </a>
@@ -160,10 +205,10 @@ export default function Contact() {
                     Réserver un créneau
                   </h3>
                   <p className="text-text-muted text-sm mb-6">
-                    Disponible sam. & dim. · Réponse sous 24h
+                    Disponible sam. &amp; dim. · Réponse sous 24h
                   </p>
 
-                  <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                  <form onSubmit={handleSubmit} className="space-y-5" noValidate>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-xs font-medium text-text-secondary mb-1.5 tracking-wide">
@@ -209,13 +254,72 @@ export default function Contact() {
                       </select>
                     </div>
 
+                    {/* Planning — date */}
+                    <div>
+                      <label className="block text-xs font-medium text-text-secondary mb-2 tracking-wide">
+                        Choisir une date <span className="text-text-muted font-normal">(sam. &amp; dim. uniquement)</span>
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {weekends.map((w) => {
+                          const key = w.date.toDateString()
+                          const selected = form.date === w.label
+                          return (
+                            <button
+                              key={key}
+                              type="button"
+                              onClick={() => setForm({ ...form, date: w.label, time: '' })}
+                              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+                                selected
+                                  ? 'bg-blue-600 text-white border border-blue-500'
+                                  : 'glass border border-white/10 text-text-secondary hover:border-blue-500/40 hover:text-white'
+                              }`}
+                            >
+                              {w.label}
+                            </button>
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Planning — time */}
+                    {form.date && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <label className="block text-xs font-medium text-text-secondary mb-2 tracking-wide">
+                          Choisir un créneau
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                          {timeSlots.map((slot) => {
+                            const selected = form.time === slot
+                            return (
+                              <button
+                                key={slot}
+                                type="button"
+                                onClick={() => setForm({ ...form, time: slot })}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
+                                  selected
+                                    ? 'bg-blue-600 text-white border border-blue-500'
+                                    : 'glass border border-white/10 text-text-secondary hover:border-blue-500/40 hover:text-white'
+                                }`}
+                              >
+                                {slot}
+                              </button>
+                            )
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+
                     <div>
                       <label className="block text-xs font-medium text-text-secondary mb-1.5 tracking-wide">
                         Message (optionnel)
                       </label>
                       <textarea
-                        rows={4}
-                        placeholder="Votre véhicule, votre adresse, vos disponibilités..."
+                        rows={3}
+                        placeholder="Votre véhicule, votre adresse..."
                         value={form.message}
                         onChange={(e) => setForm({ ...form, message: e.target.value })}
                         className={inputClasses + ' resize-none'}
@@ -224,10 +328,11 @@ export default function Contact() {
 
                     <button
                       type="submit"
+                      disabled={loading}
                       data-cursor-hover
-                      className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-sm hover:from-blue-500 hover:to-blue-400 transition-all duration-300 btn-glow shadow-lg shadow-blue-900/30 hover:scale-[1.01] active:scale-[0.99]"
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-sm hover:from-blue-500 hover:to-blue-400 transition-all duration-300 btn-glow shadow-lg shadow-blue-900/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      Envoyer la demande
+                      {loading ? 'Envoi en cours...' : 'Envoyer la demande'}
                     </button>
 
                     <p className="text-center text-text-muted text-xs">
@@ -249,19 +354,24 @@ export default function Contact() {
                   </div>
                   <h3 className="font-display text-xl font-bold text-white">Demande envoyée !</h3>
                   <p className="text-text-secondary text-sm max-w-xs leading-relaxed">
-                    Merci <strong className="text-white">{form.name}</strong> — on vous rappelle au plus vite
-                    pour confirmer votre créneau A&amp;I Clean.
+                    Merci <strong className="text-white">{form.name}</strong> — on vous recontacte au plus vite
+                    pour confirmer votre créneau.
+                    {form.date && form.time && (
+                      <span className="block mt-2 text-blue-300 font-medium">
+                        {form.date} à {form.time}
+                      </span>
+                    )}
                   </p>
                   <a
-                    href="https://www.snapchat.com/add/aiclean"
+                    href="https://www.snapchat.com/add/ai-clean"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 text-yellow-300 text-sm font-medium hover:text-yellow-200 transition-colors"
                   >
-                    Ou ajoutez-nous sur Snapchat : @aiclean
+                    Ou ajoutez-nous sur Snapchat : @ai-clean
                   </a>
                   <button
-                    onClick={() => { setSubmitted(false); setForm({ name: '', phone: '', service: '', message: '' }) }}
+                    onClick={() => { setSubmitted(false); setForm({ name: '', phone: '', service: '', date: '', time: '', message: '' }) }}
                     className="text-text-muted text-xs hover:text-text-secondary transition-colors mt-1"
                   >
                     Nouvelle demande

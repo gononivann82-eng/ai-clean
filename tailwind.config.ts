@@ -15,9 +15,9 @@ const config: Config = {
         'accent-blue-dark': '#1d4ed8',
         'accent-gold': '#c9a84c',
         'accent-gold-light': '#e8c97a',
-        'text-primary': '#f1f5f9',
-        'text-secondary': '#94a3b8',
-        'text-muted': '#64748b',
+        'text-primary': '#f8fafc',
+        'text-secondary': '#c8d6e5',
+        'text-muted': '#94a3b8',
       },
       fontFamily: {
         display: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
