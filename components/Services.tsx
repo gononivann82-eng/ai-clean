@@ -9,7 +9,7 @@ const services = [
     name: 'Détailing extérieur',
     description:
       "Traitement extérieur complet qui redonne à votre carrosserie son éclat d'origine, du lavage à la protection finale.",
-    benefits: ['Décontamination de la peinture', "Traitement à l'argile", 'Lavage à la main', 'Jantes & pneus'],
+    benefits: ['Décontamination de la peinture', 'Lavage à la main', 'Jantes & pneus', 'Protection finale'],
     price: 'À partir de 60 €',
     priceNote: 'Selon taille du véhicule',
     color: '#3b82f6',
