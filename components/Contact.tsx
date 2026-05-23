@@ -11,26 +11,134 @@ const servicesList = [
 
 const timeSlots = ['10h00', '11h00', '12h00', '13h00', '14h00', '15h00', '16h00', '17h00', '18h00']
 
-const DAYS_FR = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.']
-const MONTHS_FR = ['jan.', 'fév.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sep.', 'oct.', 'nov.', 'déc.']
+const MONTHS_FULL = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']
+const MONTHS_SHORT = ['jan.', 'fév.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sep.', 'oct.', 'nov.', 'déc.']
+const DAYS_SHORT = ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.']
+const DAY_HEADERS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim']
 
-function getUpcomingWeekends() {
-  const result: { date: Date; label: string; dayName: string }[] = []
-  const today = new Date()
-  let d = new Date(today)
-  d.setDate(d.getDate() + 1)
-  while (result.length < 14) {
-    const day = d.getDay()
-    if (day === 0 || day === 6) {
-      result.push({
-        date: new Date(d),
-        label: `${DAYS_FR[day]} ${d.getDate()} ${MONTHS_FR[d.getMonth()]}`,
-        dayName: DAYS_FR[day],
-      })
-    }
-    d.setDate(d.getDate() + 1)
+function BookingCalendar({ selectedDate, onSelect }: { selectedDate: string; onSelect: (label: string) => void }) {
+  const todayRaw = new Date()
+  todayRaw.setHours(0, 0, 0, 0)
+  const [viewDate, setViewDate] = useState(new Date(todayRaw.getFullYear(), todayRaw.getMonth(), 1))
+
+  const year = viewDate.getFullYear()
+  const month = viewDate.getMonth()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const startOffset = (new Date(year, month, 1).getDay() + 6) % 7
+
+  const cells: (number | null)[] = []
+  for (let i = 0; i < startOffset; i++) cells.push(null)
+  for (let d = 1; d <= daysInMonth; d++) cells.push(d)
+  while (cells.length % 7 !== 0) cells.push(null)
+
+  const getLabel = (day: number) => {
+    const d = new Date(year, month, day)
+    return `${DAYS_SHORT[d.getDay()]} ${day} ${MONTHS_SHORT[month]}`
   }
-  return result
+
+  const isWeekend = (day: number) => {
+    const dow = new Date(year, month, day).getDay()
+    return dow === 0 || dow === 6
+  }
+
+  const isPast = (day: number) => {
+    const d = new Date(year, month, day)
+    d.setHours(0, 0, 0, 0)
+    return d <= todayRaw
+  }
+
+  const canGoPrev = () => {
+    const now = new Date()
+    return year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth())
+  }
+
+  const prevMonth = () => {
+    if (canGoPrev()) setViewDate(new Date(year, month - 1, 1))
+  }
+  const nextMonth = () => setViewDate(new Date(year, month + 1, 1))
+
+  return (
+    <div className="bg-white/[0.03] border border-white/10 rounded-xl p-4">
+      {/* Navigation mois */}
+      <div className="flex items-center justify-between mb-3">
+        <button
+          type="button"
+          onClick={prevMonth}
+          disabled={!canGoPrev()}
+          className="w-7 h-7 flex items-center justify-center rounded-lg text-text-secondary hover:text-white hover:bg-white/10 transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <span className="font-display font-semibold text-white text-sm tracking-wide">
+          {MONTHS_FULL[month]} {year}
+        </span>
+        <button
+          type="button"
+          onClick={nextMonth}
+          className="w-7 h-7 flex items-center justify-center rounded-lg text-text-secondary hover:text-white hover:bg-white/10 transition-all duration-200"
+        >
+          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* En-têtes jours */}
+      <div className="grid grid-cols-7 mb-1">
+        {DAY_HEADERS.map((h, i) => (
+          <div key={h} className={`text-center text-[10px] font-semibold tracking-widest py-1.5 uppercase ${i >= 5 ? 'text-blue-400' : 'text-text-muted'}`}>
+            {h}
+          </div>
+        ))}
+      </div>
+
+      {/* Grille jours */}
+      <div className="grid grid-cols-7 gap-1">
+        {cells.map((day, idx) => {
+          if (!day) return <div key={idx} />
+          const available = isWeekend(day) && !isPast(day)
+          const selected = selectedDate === getLabel(day)
+          return (
+            <button
+              key={idx}
+              type="button"
+              disabled={!available}
+              onClick={() => available && onSelect(getLabel(day))}
+              className={`
+                aspect-square flex items-center justify-center rounded-lg text-xs font-medium transition-all duration-200
+                ${selected
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/40 scale-105'
+                  : available
+                  ? 'text-white border border-blue-500/25 hover:bg-blue-500/20 hover:border-blue-400/50'
+                  : 'text-white/20 cursor-not-allowed'
+                }
+              `}
+            >
+              {day}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Légende */}
+      <div className="flex items-center gap-5 mt-3 pt-3 border-t border-white/[0.06]">
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded border border-blue-500/40 bg-blue-500/10" />
+          <span className="text-text-muted text-[10px]">Disponible</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded bg-blue-600" />
+          <span className="text-text-muted text-[10px]">Sélectionné</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded bg-white/10" />
+          <span className="text-text-muted text-[10px]">Indisponible</span>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 const contactInfo = [
@@ -81,8 +189,6 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({ name: '', phone: '', service: '', date: '', time: '', message: '' })
-
-  const weekends = getUpcomingWeekends()
 
   const inputClasses =
     'w-full bg-white/[0.04] border border-white/10 rounded-xl px-4 py-3.5 text-text-primary placeholder-text-muted text-sm focus:outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all duration-200'
@@ -254,31 +360,15 @@ export default function Contact() {
                       </select>
                     </div>
 
-                    {/* Planning — date */}
+                    {/* Planning — calendrier */}
                     <div>
                       <label className="block text-xs font-medium text-text-secondary mb-2 tracking-wide">
                         Choisir une date <span className="text-text-muted font-normal">(sam. &amp; dim. uniquement)</span>
                       </label>
-                      <div className="flex flex-wrap gap-2">
-                        {weekends.map((w) => {
-                          const key = w.date.toDateString()
-                          const selected = form.date === w.label
-                          return (
-                            <button
-                              key={key}
-                              type="button"
-                              onClick={() => setForm({ ...form, date: w.label, time: '' })}
-                              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 ${
-                                selected
-                                  ? 'bg-blue-600 text-white border border-blue-500'
-                                  : 'glass border border-white/10 text-text-secondary hover:border-blue-500/40 hover:text-white'
-                              }`}
-                            >
-                              {w.label}
-                            </button>
-                          )
-                        })}
-                      </div>
+                      <BookingCalendar
+                        selectedDate={form.date}
+                        onSelect={(label) => setForm({ ...form, date: label, time: '' })}
+                      />
                     </div>
 
                     {/* Planning — time */}

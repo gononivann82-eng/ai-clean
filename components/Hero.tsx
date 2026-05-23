@@ -56,11 +56,11 @@ export default function Hero() {
       {/* ── Background photo with parallax ── */}
       <motion.div className="absolute inset-0 z-0" style={{ y: photoY, scale: photoScale }}>
         <Image
-          src="https://images.unsplash.com/photo-1617195920950-1145bf9a9c72?w=1920&q=85&auto=format&fit=crop"
+          src="/hero.jpg"
           alt="Véhicule détaillé par A&I Clean"
           fill
           priority
-          className="object-cover"
+          className="object-cover object-center"
           sizes="100vw"
         />
         {/* Heavy dark overlay to keep dark theme */}
@@ -137,46 +137,33 @@ export default function Hero() {
           </Link>
         </motion.div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.1 }}
-          className="flex justify-center mt-16 pt-8 border-t border-white/[0.07]"
-        >
-          {stats.map((s, i) => (
-            <motion.div
-              key={s.label}
-              className="text-center"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.1 + i * 0.1 }}
-            >
-              <div className="font-display text-3xl sm:text-4xl font-bold text-white">{s.value}</div>
-              <div className="text-text-secondary text-xs font-medium mt-1 tracking-widest uppercase">
-                {s.label}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
       </motion.div>
 
-      {/* ── Scroll indicator ── */}
+      {/* ── Loire & alentours — bottom left avec flèche ── */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
+        className="absolute bottom-8 left-6 sm:left-10 flex flex-col items-start gap-1.5"
+        initial={{ opacity: 0, x: -16 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         aria-hidden="true"
       >
-        <span className="text-text-muted text-[9px] tracking-[0.25em] uppercase">Défiler</span>
-        <div className="relative w-px h-14 overflow-hidden">
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-b from-blue-400/60 to-transparent"
-            animate={{ y: ['-100%', '200%'] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          />
+        <div className="flex items-center gap-2">
+          <div className="w-px h-6 bg-gradient-to-b from-blue-400/60 to-transparent" />
+          <div>
+            <div className="font-display text-lg font-bold text-white leading-none">Loire</div>
+            <div className="text-text-secondary text-[10px] tracking-widest uppercase mt-0.5">& alentours</div>
+          </div>
         </div>
+        <motion.svg
+          className="w-4 h-4 text-blue-400 ml-3"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          animate={{ y: [0, 5, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </motion.svg>
       </motion.div>
     </section>
   )
