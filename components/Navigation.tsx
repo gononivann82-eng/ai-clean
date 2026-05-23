@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const navItems = [
   { label: 'Prestations', href: '#services' },
@@ -35,34 +36,19 @@ export default function Navigation() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/40 transition-shadow duration-300">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-white">
-                  <path
-                    d="M12 3C10.3 3 9 4.3 9 6s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M3 12l3-3M21 12l-3-3M12 21v-3"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <div className="absolute inset-0 rounded-xl bg-blue-500/25 blur-md group-hover:bg-blue-500/45 transition-all duration-300" />
+            <div className="relative flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="A&I Clean"
+                width={42}
+                height={42}
+                className="rounded-xl object-cover shadow-lg group-hover:shadow-amber-500/30 transition-shadow duration-300"
+              />
+              <div className="absolute inset-0 rounded-xl bg-amber-500/0 group-hover:bg-amber-500/10 blur-sm transition-all duration-300" />
             </div>
             <div className="flex flex-col leading-none">
               <span className="font-display font-bold text-base tracking-tight text-white">
-                A&amp;I <span className="text-blue-400">Clean</span>
+                A&amp;I <span className="text-amber-400">Clean</span>
               </span>
               <span className="text-[10px] text-text-muted tracking-widest uppercase">
                 Saint-Étienne
