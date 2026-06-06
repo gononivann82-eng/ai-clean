@@ -28,7 +28,7 @@ export default function Marquee() {
             className="flex items-center gap-3 px-6 text-text-muted text-xs font-medium tracking-[0.18em] uppercase"
           >
             <span
-              className="w-1 h-1 rounded-full bg-blue-500/60 flex-shrink-0"
+              className="w-1.5 h-1.5 rounded-full bg-cyan-400/70 flex-shrink-0"
               aria-hidden="true"
             />
             {item}

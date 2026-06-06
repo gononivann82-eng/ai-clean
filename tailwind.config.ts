@@ -9,15 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#050507',
-        'background-secondary': '#0c0e16',
+        background: '#0a0e1a',
+        'background-secondary': '#111726',
         'accent-blue': '#3b82f6',
+        'accent-blue-light': '#60a5fa',
+        'accent-cyan': '#38bdf8',
         'accent-blue-dark': '#1d4ed8',
         'accent-gold': '#c9a84c',
         'accent-gold-light': '#e8c97a',
         'text-primary': '#f8fafc',
-        'text-secondary': '#c8d6e5',
-        'text-muted': '#94a3b8',
+        'text-secondary': '#cbd9e8',
+        'text-muted': '#9fb0c4',
       },
       fontFamily: {
         display: ['var(--font-space-grotesk)', 'system-ui', 'sans-serif'],
@@ -26,6 +28,9 @@ const config: Config = {
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 3s ease-in-out infinite',
+        'aurora': 'aurora 18s ease-in-out infinite',
+        'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
+        'gradient-shift': 'gradient-shift 6s ease infinite',
       },
       keyframes: {
         float: {

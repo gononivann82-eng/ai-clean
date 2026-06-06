@@ -15,3 +15,7 @@ out/
 
 # Debug
 npm-debug.log*
+
+# Cartes de visite (assets générés)
+carte-visite.png
+carte-visite.pdf

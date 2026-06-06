@@ -67,21 +67,27 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
       initial={{ opacity: 0, y: 48 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 48 }}
       transition={{ duration: 0.75, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -6, transition: { duration: 0.3 } }}
-      className="group relative glass rounded-2xl p-8 transition-all duration-500 hover:bg-white/[0.07] flex flex-col"
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      className="group relative gradient-border glass rounded-2xl p-8 transition-all duration-500 hover:bg-white/[0.09] flex flex-col"
       style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
       data-cursor-hover
     >
+      {/* Lueur de couleur au survol */}
+      <div
+        className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10 blur-2xl"
+        style={{ background: `radial-gradient(circle at 50% 0%, ${service.color}33, transparent 70%)` }}
+      />
+
       {/* Barre accent top */}
       <div
-        className="absolute top-0 left-8 right-8 h-px rounded-full opacity-35 group-hover:opacity-100 transition-opacity duration-300"
+        className="absolute top-0 left-8 right-8 h-px rounded-full opacity-40 group-hover:opacity-100 transition-opacity duration-300"
         style={{ background: `linear-gradient(90deg, transparent, ${service.color}, transparent)` }}
       />
 
       {/* Icône */}
       <div
-        className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300"
-        style={{ background: service.bgColor, color: service.color }}
+        className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300"
+        style={{ background: service.bgColor, color: service.color, boxShadow: `0 8px 24px ${service.color}22` }}
       >
         {service.icon}
       </div>
@@ -149,7 +155,8 @@ export default function Services() {
       <div className="absolute inset-0 bg-background-secondary" />
       <div className="absolute top-0 left-0 right-0 divider-gradient" />
       <div className="absolute bottom-0 left-0 right-0 divider-gradient" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-blue-900/5 rounded-full blur-[130px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-blue-600/12 rounded-full blur-[130px] pointer-events-none animate-glow-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none animate-glow-pulse" style={{ animationDelay: '2s' }} />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">

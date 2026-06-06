@@ -29,10 +29,6 @@ function LineReveal({
   )
 }
 
-const stats = [
-  { value: 'Loire', label: '& alentours' },
-]
-
 export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -63,13 +59,20 @@ export default function Hero() {
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Heavy dark overlay to keep dark theme */}
-        <div className="absolute inset-0 bg-background/75" />
+        {/* Overlay plus léger pour laisser respirer la photo */}
+        <div className="absolute inset-0 bg-background/58" />
         {/* Gradient fade top & bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/90" />
-        {/* Subtle blue tint */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-950/30 via-transparent to-indigo-950/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background/90" />
+        {/* Teinte bleue lumineuse */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/25 via-transparent to-indigo-900/20" />
       </motion.div>
+
+      {/* ── Aurora — lueurs animées ── */}
+      <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
+        <div className="absolute -top-20 left-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[130px] animate-aurora" />
+        <div className="absolute bottom-0 right-1/4 w-[450px] h-[450px] bg-cyan-400/15 rounded-full blur-[120px] animate-aurora" style={{ animationDelay: '6s' }} />
+        <div className="absolute top-1/3 right-10 w-[350px] h-[350px] bg-indigo-500/15 rounded-full blur-[110px] animate-aurora" style={{ animationDelay: '12s' }} />
+      </div>
 
       {/* ── Grid overlay ── */}
       <div className="absolute inset-0 z-[1] line-grid pointer-events-none" />
@@ -109,16 +112,10 @@ export default function Hero() {
         >
           <Link
             href="#contact"
-            className="group relative px-9 py-4 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-base transition-all duration-300 btn-glow hover:scale-[1.04] shadow-2xl shadow-blue-900/40"
+            className="group relative px-9 py-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white font-semibold text-base transition-all duration-300 btn-glow shine hover:scale-[1.04] shadow-2xl shadow-blue-900/40"
             data-cursor-hover
           >
             Réserver un soin
-            <motion.span
-              className="absolute inset-0 rounded-full bg-white/10"
-              initial={{ scale: 0, opacity: 0 }}
-              whileHover={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            />
           </Link>
           <Link
             href="#services"

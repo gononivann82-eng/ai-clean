@@ -45,9 +45,9 @@ export default function About() {
     <section id="about" className="relative py-24 lg:py-32 overflow-hidden">
       <div className="absolute inset-0 bg-background" />
       <div className="absolute inset-0 dot-grid opacity-100 pointer-events-none" />
-      {/* Ambient glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-blue-900/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-indigo-900/8 rounded-full blur-[120px] pointer-events-none" />
+      {/* Ambient glow — plus lumineux */}
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/14 rounded-full blur-[140px] pointer-events-none animate-glow-pulse" />
+      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-cyan-500/12 rounded-full blur-[120px] pointer-events-none animate-glow-pulse" style={{ animationDelay: '2s' }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center" ref={ref}>
@@ -92,12 +92,13 @@ export default function About() {
             {values.map((v, i) => (
               <motion.div
                 key={v.title}
-                className="flex gap-4 items-start p-5 glass rounded-xl border border-white/[0.06] hover:border-blue-500/20 transition-all duration-300 hover:bg-white/[0.04]"
+                className="group flex gap-4 items-start p-5 gradient-border glass rounded-xl border border-white/[0.06] hover:border-blue-400/30 transition-all duration-300 hover:bg-white/[0.06]"
                 initial={{ opacity: 0, x: 24 }}
                 animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 24 }}
                 transition={{ duration: 0.6, delay: 0.45 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ x: 6, transition: { duration: 0.25 } }}
               >
-                <span className="text-blue-400 text-sm mt-0.5 w-4 flex-shrink-0 select-none">
+                <span className="text-cyan-400 text-sm mt-0.5 w-4 flex-shrink-0 select-none group-hover:scale-125 transition-transform duration-300">
                   {v.symbol}
                 </span>
                 <div>

@@ -6,19 +6,38 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 const navItems = [
-  { label: 'Prestations', href: '#services' },
-  { label: 'À propos', href: '#about' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Prestations', href: '#services', id: 'services' },
+  { label: 'À propos', href: '#about', id: 'about' },
+  { label: 'Contact', href: '#contact', id: 'contact' },
 ]
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [active, setActive] = useState('')
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+
+    // Détecte la section visible pour surligner le lien correspondant
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id)
+        })
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    )
+    navItems.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      observer.disconnect()
+    }
   }, [])
 
   return (
@@ -58,23 +77,32 @@ export default function Navigation() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8" aria-label="Navigation principale">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-sm text-text-secondary hover:text-text-primary transition-colors duration-200 tracking-wide font-medium relative group"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-blue-400 group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
+            {navItems.map((item) => {
+              const isActive = active === item.id
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`text-sm transition-colors duration-200 tracking-wide font-medium relative group ${
+                    isActive ? 'text-white' : 'text-text-secondary hover:text-text-primary'
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-px bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300 ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
+                </Link>
+              )
+            })}
           </nav>
 
           {/* CTA */}
           <div className="hidden md:block">
             <Link
               href="#contact"
-              className="px-5 py-2.5 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 transition-all duration-300 btn-glow shadow-lg shadow-blue-900/30"
+              className="px-5 py-2.5 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 hover:scale-105 transition-all duration-300 btn-glow shine shadow-lg shadow-blue-900/30 inline-block"
             >
               Prendre RDV
             </Link>

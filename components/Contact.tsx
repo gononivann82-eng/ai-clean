@@ -218,8 +218,8 @@ export default function Contact() {
       <div className="absolute inset-0 bg-background-secondary" />
       <div className="absolute top-0 left-0 right-0 divider-gradient" />
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-indigo-900/8 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-blue-600/14 rounded-full blur-[120px] animate-glow-pulse" />
+        <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-cyan-500/12 rounded-full blur-[100px] animate-glow-pulse" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
@@ -420,7 +420,7 @@ export default function Contact() {
                       type="submit"
                       disabled={loading}
                       data-cursor-hover
-                      className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white font-semibold text-sm hover:from-blue-500 hover:to-blue-400 transition-all duration-300 btn-glow shadow-lg shadow-blue-900/30 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white font-semibold text-sm transition-all duration-300 btn-glow shine shadow-lg shadow-blue-900/30 hover:scale-[1.02] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {loading ? 'Envoi en cours...' : 'Envoyer la demande'}
                     </button>
