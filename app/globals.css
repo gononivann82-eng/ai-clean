@@ -165,6 +165,32 @@ body {
 /* Text perspective for 3D reveal */
 .perspective-text { perspective: 800px; }
 
+/* Spotlight — lueur qui suit le curseur sur les cartes */
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgba(56, 189, 248, 0.16), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spotlight:hover::after { opacity: 1; }
+.spotlight > * { position: relative; z-index: 1; }
+
+/* Grain de film — texture premium */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 /* Respect des préférences de mouvement réduit */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -68,16 +68,15 @@ function ServiceCard({ service, index }: { service: (typeof services)[0]; index:
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 48 }}
       transition={{ duration: 0.75, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
-      className="group relative gradient-border glass rounded-2xl p-8 transition-all duration-500 hover:bg-white/[0.09] flex flex-col"
+      onMouseMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect()
+        e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
+        e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
+      }}
+      className="group relative spotlight gradient-border glass rounded-2xl p-8 transition-all duration-500 hover:bg-white/[0.09] flex flex-col"
       style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06)' }}
       data-cursor-hover
     >
-      {/* Lueur de couleur au survol */}
-      <div
-        className="absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none -z-10 blur-2xl"
-        style={{ background: `radial-gradient(circle at 50% 0%, ${service.color}33, transparent 70%)` }}
-      />
-
       {/* Barre accent top */}
       <div
         className="absolute top-0 left-8 right-8 h-px rounded-full opacity-40 group-hover:opacity-100 transition-opacity duration-300"

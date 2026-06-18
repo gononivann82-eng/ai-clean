@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
+import MagneticButton from './MagneticButton'
 
 const navItems = [
   { label: 'Prestations', href: '#services', id: 'services' },
@@ -100,12 +101,14 @@ export default function Navigation() {
 
           {/* CTA */}
           <div className="hidden md:block">
-            <Link
-              href="#contact"
-              className="px-5 py-2.5 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 hover:scale-105 transition-all duration-300 btn-glow shine shadow-lg shadow-blue-900/30 inline-block"
-            >
-              Prendre RDV
-            </Link>
+            <MagneticButton strength={0.4}>
+              <Link
+                href="#contact"
+                className="px-5 py-2.5 text-sm font-semibold text-white rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 transition-all duration-300 btn-glow shine shadow-lg shadow-blue-900/30 inline-block"
+              >
+                Prendre RDV
+              </Link>
+            </MagneticButton>
           </div>
 
           {/* Bouton menu mobile */}

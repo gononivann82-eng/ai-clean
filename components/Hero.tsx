@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import MagneticButton from './MagneticButton'
 
 // Cuberto-style: each line reveals upward from a clip mask
 function LineReveal({
@@ -110,28 +111,32 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.85 }}
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
-          <Link
-            href="#contact"
-            className="group relative px-9 py-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white font-semibold text-base transition-all duration-300 btn-glow shine hover:scale-[1.04] shadow-2xl shadow-blue-900/40"
-            data-cursor-hover
-          >
-            Réserver un soin
-          </Link>
-          <Link
-            href="#services"
-            className="group flex items-center gap-2.5 px-9 py-4 rounded-full glass border border-white/12 text-text-primary font-semibold text-base hover:border-white/25 hover:bg-white/[0.07] transition-all duration-300"
-            data-cursor-hover
-          >
-            Découvrir nos prestations
-            <svg
-              className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <MagneticButton>
+            <Link
+              href="#contact"
+              className="group relative px-9 py-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white font-semibold text-base transition-all duration-300 btn-glow shine shadow-2xl shadow-blue-900/40"
+              data-cursor-hover
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
+              Réserver un soin
+            </Link>
+          </MagneticButton>
+          <MagneticButton>
+            <Link
+              href="#services"
+              className="group flex items-center gap-2.5 px-9 py-4 rounded-full glass border border-white/12 text-text-primary font-semibold text-base hover:border-white/25 hover:bg-white/[0.07] transition-all duration-300"
+              data-cursor-hover
+            >
+              Découvrir nos prestations
+              <svg
+                className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </MagneticButton>
         </motion.div>
 
       </motion.div>
