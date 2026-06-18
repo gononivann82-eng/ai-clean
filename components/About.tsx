@@ -5,106 +5,60 @@ import { motion, useInView } from 'framer-motion'
 
 const values = [
   {
-    symbol: '◆',
     title: 'Précision absolue',
     description: 'Chaque centimètre de votre véhicule reçoit une attention méticuleuse. Aucun détail laissé au hasard.',
   },
   {
-    symbol: '●',
     title: 'Produits pro certifiés',
     description: 'On utilise les meilleurs produits pH neutres du marché — efficaces sans jamais agresser votre peinture.',
   },
   {
-    symbol: '▲',
     title: 'Artisans passionnés',
     description: "La passion de l'auto depuis toujours — maintenant au service de votre véhicule, chaque week-end.",
   },
 ]
-
-function LineReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-8%' })
-  return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div
-        initial={{ y: '105%' }}
-        animate={isInView ? { y: '0%' } : { y: '105%' }}
-        transition={{ duration: 0.9, delay, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {children}
-      </motion.div>
-    </div>
-  )
-}
 
 export default function About() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-10%' })
 
   return (
-    <section id="about" className="relative py-24 lg:py-32 overflow-hidden">
-      <div className="absolute inset-0 bg-background" />
-      <div className="absolute inset-0 dot-grid opacity-100 pointer-events-none" />
-      {/* Ambient glow — plus lumineux */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/14 rounded-full blur-[140px] pointer-events-none animate-glow-pulse" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-cyan-500/12 rounded-full blur-[120px] pointer-events-none animate-glow-pulse" style={{ animationDelay: '2s' }} />
+    <section id="about" className="relative py-20 lg:py-28 bg-background-secondary">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid lg:grid-cols-2 gap-14 items-center" ref={ref}>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center" ref={ref}>
-
-          {/* Left — Text */}
-          <div>
-            <LineReveal>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-blue-500/20 text-blue-300 text-xs font-medium tracking-[0.15em] uppercase mb-6">
-                <span className="w-1 h-1 rounded-full bg-blue-400" />
-                Artisans passionnés
-              </div>
-            </LineReveal>
-
-            <div className="mb-6">
-              <LineReveal delay={0.1}>
-                <h2 className="font-display text-4xl sm:text-5xl lg:text-[3.2rem] font-bold text-white leading-tight">
-                  On fait ça
-                </h2>
-              </LineReveal>
-              <LineReveal delay={0.2}>
-                <h2 className="font-display text-4xl sm:text-5xl lg:text-[3.2rem] font-bold leading-tight">
-                  <span className="gradient-text-gold">avec le cœur.</span>
-                </h2>
-              </LineReveal>
+          {/* Gauche — Texte */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="text-text-muted text-xs font-semibold tracking-[0.2em] uppercase mb-3">
+              Artisans passionnés
             </div>
-
-            <motion.p
-              className="text-text-secondary text-lg leading-relaxed"
-              initial={{ opacity: 0, y: 18 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
-              transition={{ duration: 0.7, delay: 0.35 }}
-            >
+            <h2 className="font-display text-4xl sm:text-5xl font-semibold text-[#171a20] tracking-tight leading-tight mb-6">
+              On fait ça avec le cœur.
+            </h2>
+            <p className="text-text-secondary text-lg leading-relaxed">
               Deux jeunes de Saint-Étienne, une obsession : rendre votre voiture
               impeccable. On a grandi avec la passion de l'auto et on en a fait
               notre métier. Pas de blabla, juste du travail sérieux —
               chez vous, chaque week-end.
-            </motion.p>
-          </div>
+            </p>
+          </motion.div>
 
-          {/* Right — Values cards */}
-          <div className="space-y-3">
+          {/* Droite — Valeurs */}
+          <div className="space-y-px bg-line rounded-2xl overflow-hidden border border-line">
             {values.map((v, i) => (
               <motion.div
                 key={v.title}
-                className="group flex gap-4 items-start p-5 gradient-border glass rounded-xl border border-white/[0.06] hover:border-blue-400/30 transition-all duration-300 hover:bg-white/[0.06]"
-                initial={{ opacity: 0, x: 24 }}
-                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 24 }}
-                transition={{ duration: 0.6, delay: 0.45 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                whileHover={{ x: 6, transition: { duration: 0.25 } }}
+                className="bg-white p-6"
+                initial={{ opacity: 0, x: 20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                transition={{ duration: 0.6, delay: 0.2 + i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               >
-                <span className="text-cyan-400 text-sm mt-0.5 w-4 flex-shrink-0 select-none group-hover:scale-125 transition-transform duration-300">
-                  {v.symbol}
-                </span>
-                <div>
-                  <div className="font-display font-semibold text-white text-sm mb-1">{v.title}</div>
-                  <div className="text-text-secondary text-sm leading-relaxed">{v.description}</div>
-                </div>
+                <div className="font-display font-semibold text-[#171a20] text-base mb-1.5">{v.title}</div>
+                <div className="text-text-secondary text-sm leading-relaxed">{v.description}</div>
               </motion.div>
             ))}
           </div>

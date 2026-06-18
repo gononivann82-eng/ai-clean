@@ -1,171 +1,80 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import MagneticButton from './MagneticButton'
-
-// Cuberto-style: each line reveals upward from a clip mask
-function LineReveal({
-  children,
-  delay = 0,
-  className = '',
-}: {
-  children: React.ReactNode
-  delay?: number
-  className?: string
-}) {
-  return (
-    <div className={`overflow-hidden ${className}`}>
-      <motion.div
-        initial={{ y: '105%', rotateX: 8 }}
-        animate={{ y: '0%', rotateX: 0 }}
-        transition={{ duration: 1.05, delay, ease: [0.22, 1, 0.36, 1] }}
-        style={{ transformOrigin: 'bottom' }}
-      >
-        {children}
-      </motion.div>
-    </div>
-  )
-}
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  })
-
-  // Parallax: photo moves slower than scroll
-  const photoY = useTransform(scrollYProgress, [0, 1], ['0%', '20%'])
-  const photoScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.15])
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0])
-  const contentY = useTransform(scrollYProgress, [0, 0.55], ['0%', '-6%'])
-
   return (
     <section
-      ref={containerRef}
       id="home"
-      className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden"
+      className="relative h-screen min-h-[640px] w-full overflow-hidden"
       aria-label="Accueil A&I Clean"
     >
-      {/* ── Background photo with parallax ── */}
-      <motion.div className="absolute inset-0 z-0" style={{ y: photoY, scale: photoScale }}>
-        <Image
-          src="/hero.jpg"
-          alt="Véhicule détaillé par A&I Clean"
-          fill
-          priority
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        {/* Overlay plus léger pour laisser respirer la photo */}
-        <div className="absolute inset-0 bg-background/58" />
-        {/* Gradient fade top & bottom */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background/90" />
-        {/* Teinte bleue lumineuse */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/25 via-transparent to-indigo-900/20" />
-      </motion.div>
+      {/* Photo plein écran */}
+      <Image
+        src="/hero.jpg"
+        alt="Véhicule détaillé par A&I Clean"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
+      />
+      {/* Légers dégradés pour la lisibilité */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/35" />
 
-      {/* ── Aurora — lueurs animées ── */}
-      <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
-        <div className="absolute -top-20 left-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[130px] animate-aurora" />
-        <div className="absolute bottom-0 right-1/4 w-[450px] h-[450px] bg-cyan-400/15 rounded-full blur-[120px] animate-aurora" style={{ animationDelay: '6s' }} />
-        <div className="absolute top-1/3 right-10 w-[350px] h-[350px] bg-indigo-500/15 rounded-full blur-[110px] animate-aurora" style={{ animationDelay: '12s' }} />
-      </div>
-
-      {/* ── Grid overlay ── */}
-      <div className="absolute inset-0 z-[1] line-grid pointer-events-none" />
-
-      {/* ── Content ── */}
+      {/* Titre — haut centré (façon Tesla) */}
       <motion.div
-        className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto perspective-text"
-        style={{ opacity: contentOpacity, y: contentY }}
+        className="absolute top-[14%] left-0 right-0 text-center px-4"
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Headline — Cuberto word-by-word reveal */}
-        <h1 className="font-display font-bold leading-[1.03] tracking-tight mb-7">
-          <LineReveal delay={0.25} className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem]">
-            La perfection
-          </LineReveal>
-          <LineReveal delay={0.38} className="gradient-text-blue text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem]">
-            au service de
-          </LineReveal>
-          <LineReveal delay={0.51} className="text-white text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem]">
-            votre véhicule.
-          </LineReveal>
+        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-semibold text-white tracking-tight">
+          A&amp;I Clean
         </h1>
-
-        {/* Tagline */}
-        <LineReveal delay={0.68}>
-          <p className="text-text-secondary text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-12">
-            Soin impeccable. Finition parfaite. Passion incomparable — chaque détail
-            traité avec la précision qu'il mérite.
-          </p>
-        </LineReveal>
-
-        {/* CTAs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.85 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+        <p className="mt-3 text-base sm:text-lg text-white/90 font-medium">
+          Détailing automobile premium · à domicile
+        </p>
+        <Link
+          href="#services"
+          className="inline-block mt-2 text-sm text-white/80 underline underline-offset-4 hover:text-white transition-colors"
         >
-          <MagneticButton>
-            <Link
-              href="#contact"
-              className="group relative px-9 py-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 text-white font-semibold text-base transition-all duration-300 btn-glow shine shadow-2xl shadow-blue-900/40"
-              data-cursor-hover
-            >
-              Réserver un soin
-            </Link>
-          </MagneticButton>
-          <MagneticButton>
-            <Link
-              href="#services"
-              className="group flex items-center gap-2.5 px-9 py-4 rounded-full glass border border-white/12 text-text-primary font-semibold text-base hover:border-white/25 hover:bg-white/[0.07] transition-all duration-300"
-              data-cursor-hover
-            >
-              Découvrir nos prestations
-              <svg
-                className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </MagneticButton>
-        </motion.div>
-
+          Découvrir nos prestations
+        </Link>
       </motion.div>
 
-      {/* ── Loire & alentours — bottom left avec flèche ── */}
+      {/* Boutons — bas centré */}
       <motion.div
-        className="absolute bottom-8 left-6 sm:left-10 flex flex-col items-start gap-1.5"
-        initial={{ opacity: 0, x: -16 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 1.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="absolute bottom-[8%] left-0 right-0 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-6"
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Link
+          href="#contact"
+          className="btn-glass-light w-full sm:w-60 text-center py-3 rounded-full font-medium text-sm tracking-wide shadow-sm"
+        >
+          Réserver un soin
+        </Link>
+        <Link
+          href="#services"
+          className="btn-glass-dark w-full sm:w-60 text-center py-3 rounded-full font-medium text-sm tracking-wide"
+        >
+          Nos prestations
+        </Link>
+      </motion.div>
+
+      {/* Indicateur de scroll */}
+      <motion.div
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 hidden sm:block"
+        animate={{ y: [0, 7, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       >
-        <div className="flex items-center gap-2">
-          <div className="w-px h-6 bg-gradient-to-b from-blue-400/60 to-transparent" />
-          <div>
-            <div className="font-display text-lg font-bold text-white leading-none">Loire</div>
-            <div className="text-text-secondary text-[10px] tracking-widest uppercase mt-0.5">& alentours</div>
-          </div>
-        </div>
-        <motion.svg
-          className="w-4 h-4 text-blue-400 ml-3"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </motion.svg>
+        <svg className="w-5 h-5 text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+        </svg>
       </motion.div>
     </section>
   )
